@@ -1,0 +1,43 @@
+#!/bin/bash
+# Usage: audio-convert [-f] VOLUME_FACTOR FILE.EXT...
+# Creates new files FILE.raw, unless they already exists and their mtime
+# is more recent than the original's.
+# The audio volume is changed according to the given factor.
+# With option -f the files are always re-created.
+
+RATE=24000 # sync with audio.rate in the blink11 config
+
+set -ue
+
+force=n
+[[ $# > 0 && "$1" = "-f" ]] && {
+    force=y
+    shift
+}
+
+[[ $# < 3 ]] && {
+    echo "Usage: $0 VOL SPEED PATH..."
+    exit 2
+}
+
+vol="$1"
+speed="$2"
+shift 2
+
+for path in "$@"; do
+    [[ "$path" =~ \.raw$ ]] && {
+        echo "cannot convert raw files: $path"
+        exit 1
+    }
+    [[ "$path" =~ .\.[^.]+$ ]] || {
+        echo "cannot convert files without extension: $path"
+        exit 1
+    }
+    raw="$(echo "$path" | sed -r 's/\.[^.]+$/.raw/')"
+    [ $force = y ] && rm -f "$raw"
+
+    [ -f "$raw" -a "$raw" -nt "$path" ] && continue
+
+    echo "$path (vol $vol, speed $speed) → $raw"
+    ffmpeg -loglevel error -y -i "$path" -f s16le -ac 1 -ar $RATE -filter:a "volume=$vol,atempo=$speed" "$raw"
+done

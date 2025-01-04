@@ -1,0 +1,14 @@
+{
+  "name": "ha",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.mjs",
+  "scripts": {
+  },
+  "dependencies": {
+    "home-assistant-js-websocket": "^9.4.0"
+  }
+}

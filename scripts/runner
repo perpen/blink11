@@ -1,0 +1,32 @@
+#!/bin/bash
+# To be run from the rpi.
+# Used by the `hack` script to kill the processes and run the
+# new binaries.
+
+set -eu
+
+kill() {
+    echo kill
+    systemctl --user stop blink11 agent11 2>/dev/null || true
+    pkill 'agent11|blink11' || true
+    sleep 1
+    pkill -9 'agent11|blink11' || true
+    rm -f /tmp/blink11.lock
+    pkill -f 'sed .*agent11' || true
+    sleep .1
+}
+
+run() {
+    kill
+    echo run
+    cd "$1"
+    local log=blink11-runner.out
+    echo "logging to stdout and $1/$log"
+    (
+        ./bin/agent11-arm -hostname pdp11 -server localhost:3333 -net -cpu -disk 2>&1 \
+        | sed -r --unbuffered 's/ (DBG|INF|WAR|ERR|FTL) / \1 [agent11] /' &
+        ./bin/blink11 blink11.yaml
+    ) 2>&1 | tee $log
+}
+
+"$@"
