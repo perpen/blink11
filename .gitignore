@@ -1,6 +1,6 @@
-acme.dump
 /bin/
 /blink11.yaml
 oo*
 /sounds/
 /tmp/
+node_modules/
