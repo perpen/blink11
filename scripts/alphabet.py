@@ -1,4 +1,5 @@
 #!/bin/python -u
+# Matrix display for letters.
 
 import os.path
 exec(open(os.path.dirname(__file__)+"/lib.py").read())
@@ -167,18 +168,26 @@ def display(word):
 cur_word = 0
 
 
-# event(KEY, STATE), eg event("EXAM", true), event(1, false)
-def event(switch, state):
+def next_word():
     words = [
-        "abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"
+        # "abcd", "efgh", "ijkl", "mnop", "qrst", "uvwx", "yz"
+        "a b", "c d", "e f", "g h", "i j", "k l", "m n", "o p", "q r", "s t", "u v", "w x", "y z"
     ]
     global cur_word
-    display(words[cur_word])
+    word = words[cur_word]
+    display(word)
+    emit(f"sound tts:{word}")
     cur_word = (cur_word + 1) % len(words)
 
 
+# event(KEY, STATE), eg event("EXAM", true), event(1, false)
+def event(switch, state):
+    if switch == "CONT":
+    	next_word()
+
+
 def start(epoch_ms):
-    pass
+    next_word()
 
 
 def stop(epoch_ms):

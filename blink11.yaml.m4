@@ -214,27 +214,6 @@ define(m4_machine_stats, `
 m4_machine_stats(ptoseis, 200, lumen, lumen, bsd, laptop, .15)
 m4_machine_stats(pdp11, 200, lumen, lumen, pdp11, pdp, .2)
 m4_machine_stats(dell, 200, strobe, lumen, rt11, proxmox, .1)
-    - name: alphabet
-      control:
-        argv: [PI_RUN_DIR/scripts/alphabet.py]
-        ticker_period_ms: 1000
-        autostart: true
-      meters:
-        alphabet.1:
-          type: binary
-          leds: [PAR_ERR, ADRS_ERR, RUN, A11, A10, A9, D11, D10, D9]
-        alphabet.2:
-          type: binary
-          leds: [PAUSE, MASTER, USER, A8, A7, A6, D8, D7, D6]
-        alphabet.3:
-          type: binary
-          leds: [SUPER, KERNEL, DATA, A5, A4, A3, D5, D4, D3]
-        alphabet.4:
-          type: binary
-          leds: [ADDR_16, ADDR_18, ADDR_22, A2, A1, A0, D2, D1, D0]
-        # alphabet.lights:
-        #   type: binary
-        #   leds: [PAR_ERR, ADRS_ERR, RUN, PAUSE, MASTER, USER, SUPER, KERNEL, DATA, ADDR_16, ADDR_18, ADDR_22, A11, A10, A8, A7, A6, A5, A4, A3, A9, D11, D10, D9, D8, D7, D6, D5, D4, D3]
 
   - section: home assistant
     modes:
@@ -394,109 +373,28 @@ m4_machine_stats(dell, 200, strobe, lumen, rt11, proxmox, .1)
         awk-timer-progress:
           type: bar
           leds: [A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15, A16, A17, A18, A19, A20, A21]
-    # - name: effects
-    #   control:
-    #     argv: [mawk, -W, interactive, -f, PI_RUN_DIR/scripts/effects.awk]
-    #   meters:
-    #     effects.lumen.0:
-    #       type: lumen
-    #       leds: [ADDR_22]
-    #     effects.lumen.1:
-    #       type: lumen
-    #       leds: [ADDR_18]
-    #     effects.lumen.2:
-    #       type: lumen
-    #       leds: [ADDR_16]
-    #     effects.lumen.3:
-    #       type: lumen
-    #       leds: [DATA]
-    #     effects.lumen.4:
-    #       type: lumen
-    #       leds: [KERNEL]
-    #     effects.lumen.5:
-    #       type: lumen
-    #       leds: [SUPER]
-    #     effects.lumen.6:
-    #       type: lumen
-    #       leds: [USER]
-    #     effects.lumen.7:
-    #       type: lumen
-    #       leds: [MASTER]
-    #     effects.lumen.8:
-    #       type: lumen
-    #       leds: [PAUSE]
-    #     effects.lumen.9:
-    #       type: lumen
-    #       leds: [RUN]
-    #     effects.lumen.10:
-    #       type: lumen
-    #       leds: [ADRS_ERR]
-    #     effects.flash.0:
-    #       type: flash
-    #       leds: [A0]
-    #     effects.flash.1:
-    #       type: flash
-    #       leds: [A1]
-    #     effects.flash.2:
-    #       type: flash
-    #       leds: [A2]
-    #     effects.flash.3:
-    #       type: flash
-    #       leds: [A3]
-    #     effects.flash.4:
-    #       type: flash
-    #       leds: [A4]
-    #     effects.flash.5:
-    #       type: flash
-    #       leds: [A5]
-    #     effects.flash.6:
-    #       type: flash
-    #       leds: [A6]
-    #     effects.flash.7:
-    #       type: flash
-    #       leds: [A7]
-    #     effects.flash.8:
-    #       type: flash
-    #       leds: [A8]
-    #     effects.flash.9:
-    #       type: flash
-    #       leds: [A9]
-    #     effects.flash.10:
-    #       type: flash
-    #       leds: [A10]
-    #     effects.strobe.0:
-    #       type: strobe
-    #       leds: [D0]
-    #     effects.strobe.1:
-    #       type: strobe
-    #       leds: [D1]
-    #     effects.strobe.2:
-    #       type: strobe
-    #       leds: [D2]
-    #     effects.strobe.3:
-    #       type: strobe
-    #       leds: [D3]
-    #     effects.strobe.4:
-    #       type: strobe
-    #       leds: [D4]
-    #     effects.strobe.5:
-    #       type: strobe
-    #       leds: [D5]
-    #     effects.strobe.6:
-    #       type: strobe
-    #       leds: [D6]
-    #     effects.strobe.7:
-    #       type: strobe
-    #       leds: [D7]
-    #     effects.strobe.8:
-    #       type: strobe
-    #       leds: [D8]
-    #     effects.strobe.9:
-    #       type: strobe
-    #       leds: [D9]
-    #     effects.strobe.10:
-    #       type: strobe
-    #       leds: [D10]
+
+  - section: more experiments
+    modes:
+    - name: alphabet
+      control:
+        argv: [PI_RUN_DIR/scripts/alphabet.py]
+        ticker_period_ms: 1000
+        autostart: true
+      meters:
+        alphabet.1:
+          type: binary
+          leds: [PAR_ERR, ADRS_ERR, RUN, A11, A10, A9, D11, D10, D9]
+        alphabet.2:
+          type: binary
+          leds: [PAUSE, MASTER, USER, A8, A7, A6, D8, D7, D6]
+        alphabet.3:
+          type: binary
+          leds: [SUPER, KERNEL, DATA, A5, A4, A3, D5, D4, D3]
+        alphabet.4:
+          type: binary
+          leds: [ADDR_16, ADDR_18, ADDR_22, A2, A1, A0, D2, D1, D0]
+
 
 ## leds reference
 # right to left
