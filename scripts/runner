@@ -9,7 +9,7 @@ kill() {
     echo kill
     systemctl --user stop blink11 agent11 2>/dev/null || true
     pkill 'agent11|blink11' || true
-    sleep 1
+    sleep 2
     pkill -9 'agent11|blink11' || true
     rm -f /tmp/blink11.lock
     pkill -f 'sed .*agent11' || true
