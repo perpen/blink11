@@ -8,14 +8,14 @@
 # The time remaining is emitted in the same format.
 # If address 1 content is >0, plays a tick sound every second.
 
-import sys
+import os.path
+exec(open(os.path.dirname(__file__)+"/lib.py").read())
 
 METRIC = "python-timer-counter"
 METRIC_PROGRESS = "python-timer-progress"
 TICK_SOUND = "folder.raw"
 FINAL_SOUND = "main-mission-to-eagle-intercomm.raw"
 
-mem = {}
 timer_total_sec = 0
 elapsed_sec = 0
 audiotick = False
@@ -56,39 +56,24 @@ def speak_time(pre, sec, post):
     emit(f"sound tts: {pre} {txt} {post}")
 
 
-# show in blink11 log
-def log(msg):
-    print(msg, file=sys.stderr)
-
-
-# sends message to blink11
-def emit(msg):
-    log(msg)
-    print(msg)
-
-
-def read(addr):
-    return mem.get(addr, 0)
-
-
-def start():
-    log("start")
+def start(epoch_ms):
+    log(f"start {epoch_ms}")
     global count, timer_total_sec, elapsed_sec, audiotick
     timer_total_sec = trinity_to_seconds(read(0))
     audiotick = read(1) != 0
     speak_time("starting timer for", timer_total_sec, "")
     elapsed_sec = 0
-    tick()
+    tick(epoch_ms)
 
 
-def stop():
-    log("stop")
+def stop(epoch_ms):
+    log(f"stop {epoch_ms}")
     global elapsed_sec
     speak_time("stopping after", elapsed_sec, "")
 
 
-def tick():
-    log("tick")
+def tick(epoch_ms):
+    log(f"tick {epoch_ms}")
     global elapsed_sec, timer_total_sec
     remaining_sec = timer_total_sec - elapsed_sec
     trinity = seconds_to_trinity(remaining_sec)
@@ -104,23 +89,4 @@ def tick():
     elapsed_sec += 1
 
 
-def event(switch, state):
-    log(f"got event: {switch}/{state}")
-
-
-for line in sys.stdin:
-    tokens = line.strip().split(" ")
-    first = tokens[0]
-    if first == "start":
-        start()
-    elif first == "stop":
-        stop()
-    elif first == "memory":
-        addr = int(tokens[1])
-        data = int(tokens[2])
-        log(f"mem[{addr}]={data}")
-        mem[addr] = data
-    elif first == "tick":
-        tick()
-    elif first == "event":
-        event(tokens[1], tokens[2] == "true")
+eventloop()

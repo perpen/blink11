@@ -214,6 +214,27 @@ define(m4_machine_stats, `
 m4_machine_stats(ptoseis, 200, lumen, lumen, bsd, laptop, .15)
 m4_machine_stats(pdp11, 200, lumen, lumen, pdp11, pdp, .2)
 m4_machine_stats(dell, 200, strobe, lumen, rt11, proxmox, .1)
+    - name: alphabet
+      control:
+        argv: [PI_RUN_DIR/scripts/alphabet.py]
+        ticker_period_ms: 1000
+        autostart: true
+      meters:
+        alphabet.1:
+          type: binary
+          leds: [PAR_ERR, ADRS_ERR, RUN, A11, A10, A9, D11, D10, D9]
+        alphabet.2:
+          type: binary
+          leds: [PAUSE, MASTER, USER, A8, A7, A6, D8, D7, D6]
+        alphabet.3:
+          type: binary
+          leds: [SUPER, KERNEL, DATA, A5, A4, A3, D5, D4, D3]
+        alphabet.4:
+          type: binary
+          leds: [ADDR_16, ADDR_18, ADDR_22, A2, A1, A0, D2, D1, D0]
+        # alphabet.lights:
+        #   type: binary
+        #   leds: [PAR_ERR, ADRS_ERR, RUN, PAUSE, MASTER, USER, SUPER, KERNEL, DATA, ADDR_16, ADDR_18, ADDR_22, A11, A10, A8, A7, A6, A5, A4, A3, A9, D11, D10, D9, D8, D7, D6, D5, D4, D3]
 
   - section: home assistant
     modes:

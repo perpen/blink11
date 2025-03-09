@@ -567,11 +567,11 @@ func newControllerMode(model *Mode, argv []string, tickerPeriodMs int, autostart
 						}
 						if mode.isRunning() {
 							mode.setRunning(false)
-							msg += "stop"
+							msg += fmt.Sprintf("stop %d", time.Now().UnixMilli())
 						} else {
 							clock.Reset(period)
 							mode.setRunning(true)
-							msg += "start"
+							msg += fmt.Sprintf("start %d", time.Now().UnixMilli())
 						}
 					default:
 						msg = eventStr
